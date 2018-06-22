@@ -2840,6 +2840,10 @@ section.checkout .cart>thead>tr>th {
     background: #f6f6f6
 }
 
+.domain-results {
+    background-color: white;
+}
+
 .domain-results ul {
     background: #fff;
     list-style: none;

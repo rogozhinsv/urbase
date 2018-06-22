@@ -6,15 +6,47 @@ block content
             div.row
                 div.col-md-12.col-sm-12.col-xs-12
                     h4 Поиск юридических лиц
-    section.domain-page.pt20
+    section.domain.ptb30
+        div.container
+            div.col-md-12
+                div.input-group.input-group-lg
+                        input#tbxOkvedExtraSearch.form-control(type="text", placeholder="Введите область деятельности...")
+                        span.input-group-btn              
+                            button#btnOkvedExtraSearch.btn.btn-my.btn-green.btn-effect.btn-responsive.btn-my-lg Найти  
+            </div>
+        </div>
+    </section>
+    section.domain-page.checkout.pt20
         div.container
             div.col-md-8.domain-results
-                
+                div.table-responsive
+                    table.table.cart
+                        thead
+                            tr
+                                th Наименование   
+                                th Отрасль                   
+                                th Регион
+                                th Руководитель
+                                th Телефон
+                        tbody
+                            each company in pageData.companies
+                                tr.cart-item
+                                    td
+                                        a(href="/company/" + company.id)=company.name
+                                    td
+                                        span=company.area
+                                    td
+                                        span=company.region
+                                    td
+                                        span=company.head
+                                    td
+                                        span=company.phone
             aside.col-md-4
-                div.domain-sidebar.shadow-hover.mt40.mb40
+                div.domain-sidebar.shadow-hover.mb40
                     div.extensions
                         h4 Регионы
                         ul
                             each region, index in pageData.regions
-                                input(type="checkbox", name=region.title, value=region.id, id="region" + index)  
-                                label(for="region" + index)=region.title
+                                li
+                                    input(type="checkbox", name=region.title, value=region.id, id="region" + index)  
+                                    label(for="region" + index)=region.title

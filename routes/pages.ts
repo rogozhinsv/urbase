@@ -53,10 +53,10 @@ class PagesRouter {
         
         Promise.all([getRegionsPromise, getCompaniesPromise]).then(() => {
             if (req.query["okved"]) {
-                res.render('data', { pageData: {regions: regions}});
+                res.render('data', { pageData: {regions: regions, companies : companies}});
             }
             else {
-                res.render('data', { pageData: {regions: regions}});
+                res.render('data', { pageData: {regions: regions, companies : companies}});
             }
         }).catch(totalPromisesError => {
             res.status(500).send(totalPromisesError);   
