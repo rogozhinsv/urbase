@@ -1,0 +1,87 @@
+extends layout
+
+block content
+    section.main.ptb80
+        div.container
+            div.row
+                div.col-md-12
+                    h2 UrBase Info
+                    h4.text-blue Актуальная база юридических лиц РФ
+            div.row.mt20
+                div.col-md-8.col-md-offset-2.col-xs-12
+                    div.input-group.input-group-lg
+                        input#tbxActivityField.form-control(type="text", placeholder="Введите область деятельности...")
+                        span.input-group-btn              
+                            button#btnSearch.btn.btn-my.btn-blue.btn-effect.btn-responsive.btn-my-lg Найти                      
+    section.about-us.ptb30#about-us
+        div.container
+            div.col-md-6.pt30.pb30
+                h2 О нас
+                p.ptb20
+                    | Кто владеет информацией - тот владеет ситуацией!<br /> 
+                    | Сервис UrBase Info предоставляет регулярно обновляемую базу данных
+                    | юридических лиц России, позволяет легко находить клиентов и бизнес-партнеров,
+                    | увеличивает продажи при обращении к целевой аудитории, дает актуальные данные о контрагентах.
+                    | Наша картотека содержит контактные данные более 5 миллионов руководителей организаций России.
+                    | <br />UrBase Info - Ваш надежный помощник в бизнеса. 
+                a(href="/about-us", class="btn btn-my btn-blue btn-my-effect") Подробнее
+            div.col-md-6.about-us-logo.pt30.pb30
+                    img(src="/images/about-us.jpg")
+    section.countup.ptb60
+        div.container
+            div.row
+                div.col-md-4.col-sm-4.col-xs-12.counter-item
+                    span(class="counter", data-from="0", data-to="85") 85
+                    h4 субъектов РФ
+                div.col-md-4.col-sm-4.col-xs-12.counter-item
+                    span(class="counter", data-from="0", data-to="5") 5
+                    h4 млн. юридических лиц
+                div.col-md-4.col-sm-4.col-xs-12.counter-item
+                    span(class="counter", data-from="0", data-to="2887") 2887
+                    h4 кодов ОКВЭД
+    section.features.ptb60#services
+        div.container
+            div.section-title
+                h2 Наши преимущества
+            div.row
+                div.col-md-4.col-sm-4.feature
+                    img(src="images/audience-64.png", class="feature-icon", alt="")
+                    img(src="images/audience-64.png", class="feature-back-icon", alt="")
+                    h4 Целевая аудитория
+                    p.pt10
+                        | Возможность использования различных критериев поиска позволит найти только
+                        | интересующие Вас юридические лица, тем самым оптимизируя процесс поиска
+                        | новых клиентов. Сервис предоставляет фильтры поиска по региону, области
+                        | деятельности, дате регистрации и множеству других параметров, а также стимулирует 
+                        | увеличение продаж, благодаря обращению к целевой аудитории.
+                div.col-md-4.col-sm-4.feature
+                    img(src="images/graphics-64.png", class="feature-icon", alt="")
+                    img(src="images/graphics-64.png", class="feature-back-icon", alt="")
+                    h4 Актуальные данные
+                    p.pt10
+                        | Сервис UrBase Info предоставляет актуальную и регулярно обновляемую базу 
+                        | юридических лиц РФ, которая содержит информацию о компании, ФИО и контактные данные 
+                        | руководителя, коды ОКВЕД, ИНН, ОГРН, ОКАТО и множество другой полезной информации. 
+                        | Используйте полученные данные для поиска новых партнеров и клиентов,
+                        | заключений сделок и расширения Вашего бизнеса.
+                div.col-md-4.col-sm-4.feature
+                    img(src="images/cloud-64.png", class="feature-icon", alt="")
+                    img(src="images/cloud-64.png", class="feature-back-icon", alt="")
+                    h4 Простота и удобство
+                    p.pt10
+                        | Концепция адаптивного минималистичного интерфейса, использованного при разработке 
+                        | сервиса UrBase Info, упрощает работу пользователей, способствуя максимально 
+                        | быстрому и эффективному поиску целевой аудитории из общего каталога контрагентов. 
+                        | Сервис поддерживается всеми современными браузерами и обеспечивает комфортную работу 
+                        | на мобильных устройствах.
+    section.ask-question.ptb50
+        div.container
+            div.row
+                div.col-md-8
+                    div.question-icon
+                        img(src="images/ask-question.svg", alt="")
+                    h2 Появился вопрос?
+                    p Наш адрес электронной почты для связи: 
+                    a(class="mailto", href="mailto:urbase.info@gmail.com") urbase.info@gmail.com
+                div.col-md-4.cta
+                    a(href="/contact", class="btn btn-my btn-green btn-effect") Связаться с нами

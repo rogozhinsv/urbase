@@ -1,0 +1,20 @@
+extend layout
+
+block content
+    section.page-header
+        div.container
+            div.row
+                div.col-md-12.col-sm-12.col-xs-12
+                    h4 Поиск юридических лиц
+    section.domain-page.pt20
+        div.container
+            div.col-md-8.domain-results
+                
+            aside.col-md-4
+                div.domain-sidebar.shadow-hover.mt40.mb40
+                    div.extensions
+                        h4 Регионы
+                        ul
+                            each region, index in pageData.regions
+                                input(type="checkbox", name=region.title, value=region.id, id="region" + index)  
+                                label(for="region" + index)=region.title
