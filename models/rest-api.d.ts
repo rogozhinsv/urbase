@@ -5,6 +5,13 @@ declare namespace RestApi {
         previous: string;
         results: any[];
     }
+
+    export interface IOkved {
+        id: number;
+        url: string;
+        title: string;
+        code: string;
+    }
 }
 
 export = RestApi;

@@ -2,7 +2,7 @@ import * as Express from 'express';
 import * as Request from "request-promise";
 import { reject } from 'bluebird';
 var Config = require("./../config.json");
-import { IRestApiRequest } from "./../models/rest-api";
+import { IRestApiRequest, IOkved } from "./../models/rest-api";
 
 class PagesRouter {
     private _router: Express.Router = Express.Router();
@@ -27,40 +27,73 @@ class PagesRouter {
     }
 
     private routeDataPage(req: Express.Request, res: Express.Response, next: Express.NextFunction): void {
-        var regions: any[] = [], companies: any[] = [];
+        var okveds: any[] = [];
 
-        var getRegionsPromise: Promise<void> = new Promise((resolve, reject) => {
-            Request.get(Config.wcfHost + "/regions?limit=104", { json: true}).then((regionsRequestResult: IRestApiRequest)  => {
-                regions = regionsRequestResult.results;
-                resolve();
-            }).catch(err => {
-                reject(err.error);
-            });
-        });
-
-        var getCompaniesPromise: Promise<void> = new Promise((resolve, reject) => {
-            var wcfUrl = Config.wcfHost + "/companies?limit=20&offset=0";
+        var getOkvedPromise: Promise<void> = new Promise((resolve, reject) => {
             if (req.query["okved"]) {
-                wcfUrl += "&okved__in=" + req.query["okved"];
+                Request.get(Config.wcfHost + "/okved/" + req.query["okved"]).then((okvedRequestResult: IOkved) => {
+                    okveds.push(okvedRequestResult);
+                    resolve();
+                }).catch(err => {
+                    reject(err.stack);
+                });
             }
-            Request.get(wcfUrl, { json: true}).then((companiesRequestResult: IRestApiRequest)  => {
-                companies = companiesRequestResult.results;
-                resolve();
-            }).catch(err => {
-                reject(err.error);
-            });
-        });
-        
-        Promise.all([getRegionsPromise, getCompaniesPromise]).then(() => {
-            if (req.query["okved"]) {
-                res.render('data', { pageData: {regions: regions, companies : companies}});
+            else if (req.query["query"]) {
+                Request.get(Config.wcfHost + "/okved?title=" + req.query["query"]).then((okvedRequestResult: IRestApiRequest) => {
+                    okveds = okvedRequestResult.results;
+                    resolve();
+                }).catch(err => {
+                    reject(err.stack);
+                });
             }
             else {
-                res.render('data', { pageData: {regions: regions, companies : companies}});
+                Request.get(Config.wcfHost + "/okved?limit=3000").then((okvedRequestResult: IRestApiRequest) => {
+                    okveds = okvedRequestResult.results;
+                    resolve();
+                }).catch(err => {
+                    reject(err.stack);
+                });
             }
-        }).catch(totalPromisesError => {
-            res.status(500).send(totalPromisesError);   
-        });   
+        });
+
+        getOkvedPromise.then(() => {
+            var regions: any[] = [], companies: any[] = [];
+
+            var getRegionsPromise: Promise<void> = new Promise((resolve, reject) => {
+                Request.get(Config.wcfHost + "/regions?limit=104", { json: true }).then((regionsRequestResult: IRestApiRequest) => {
+                    regions = regionsRequestResult.results;
+                    resolve();
+                }).catch(err => {
+                    reject(err.stack);
+                });
+            });
+
+            var getCompaniesPromise: Promise<void> = new Promise((resolve, reject) => {
+                var wcfUrl = Config.wcfHost + "/companies?limit=20&offset=0";
+                if (req.query["okved"]) {
+                    wcfUrl += "&okved__in=" + req.query["okved"];
+                }
+                Request.get(wcfUrl, { json: true }).then((companiesRequestResult: IRestApiRequest) => {
+                    companies = companiesRequestResult.results;
+                    resolve();
+                }).catch(err => {
+                    reject(err.stack);
+                });
+            });
+
+            Promise.all([getOkvedPromise, getRegionsPromise, getCompaniesPromise]).then(() => {
+                if (req.query["okved"]) {
+                    res.render('data', { pageData: { regions: regions, companies: companies } });
+                }
+                else {
+                    res.render('data', { pageData: { regions: regions, companies: companies } });
+                }
+            }).catch(totalPromisesError => {
+                res.status(500).send(totalPromisesError);
+            });
+        }).catch(err => {
+            res.status(500).send(err);
+        });
     }
 }
 
