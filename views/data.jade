@@ -44,6 +44,14 @@ block content
             aside.col-md-4
                 div.domain-sidebar.shadow-hover.mb40
                     div.extensions
+                        h4 Деятельность
+                        ul
+                            each okved, index in pageData.okveds
+                                li
+                                    input(type="checkbox", name=okved.title, value=okved.id, id="okved" + index)  
+                                    label(for="okved" + index)=okved.title
+                div.domain-sidebar.shadow-hover.mb40
+                    div.extensions
                         h4 Регионы
                         ul
                             each region, index in pageData.regions
