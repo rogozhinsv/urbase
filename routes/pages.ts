@@ -32,7 +32,7 @@ class PagesRouter {
 
         var getOkvedPromise: Promise<void> = new Promise((resolve, reject) => {
             if (req.query["okved"]) {
-                Request.get(Config.wcfHost + "/okved/" + req.query["okved"], { json : true }).then((okvedRequestResult: IOkved) => {
+                Request.get(Config.wcfHost + "/okved/" + req.query["okved"], { json: true }).then((okvedRequestResult: IOkved) => {
                     okveds.push(okvedRequestResult);
                     resolve();
                 }).catch(err => {
@@ -40,8 +40,7 @@ class PagesRouter {
                 });
             }
             else if (req.query["query"]) {
-                debugger;
-                Request.get(Config.wcfHost + "/okved?title=" + encodeURIComponent(req.query["query"]), { json : true }).then((okvedRequestResult: IRestApiRequest) => {
+                Request.get(Config.wcfHost + "/okved?title=" + encodeURIComponent(req.query["query"]), { json: true }).then((okvedRequestResult: IRestApiRequest) => {
                     okveds = okvedRequestResult.results;
                     resolve();
                 }).catch(err => {
@@ -49,7 +48,7 @@ class PagesRouter {
                 });
             }
             else {
-                Request.get(Config.wcfHost + "/okved?limit=3000", { json : true }).then((okvedRequestResult: IRestApiRequest) => {
+                Request.get(Config.wcfHost + "/okved?limit=3000", { json: true }).then((okvedRequestResult: IRestApiRequest) => {
                     okveds = okvedRequestResult.results;
                     resolve();
                 }).catch(err => {
@@ -73,12 +72,12 @@ class PagesRouter {
 
             var getCompaniesPromise: Promise<void> = new Promise((resolve, reject) => {
                 var wcfUrl = Config.wcfHost + "/companies?limit=20&offset=0";
-                if (okveds.length > 0) {
+                if ((req.query["okved"] || req.query["query"]) && okveds.length > 0) {
                     wcfUrl += "&okved__in=" + _.map(okveds, x => x.id).join(",");
                 }
                 Request.get(wcfUrl, { json: true }).then((companiesRequestResult: IRestApiRequest) => {
                     companies = companiesRequestResult.results;
-                    nextCompaniesUrl = companiesRequestResult.next;
+                    nextCompaniesUrl = decodeURIComponent(companiesRequestResult.next);
                     resolve();
                 }).catch(err => {
                     reject(err.stack);
@@ -86,7 +85,7 @@ class PagesRouter {
             });
 
             Promise.all([getOkvedPromise, getRegionsPromise, getCompaniesPromise]).then(() => {
-                res.render('data', { pageData: { regions: regions, companies: companies, okveds : okveds, nextCompaniesUrl: nextCompaniesUrl } });
+                res.render('data', { pageData: { regions: regions, companies: companies, okveds: okveds, nextCompaniesUrl: nextCompaniesUrl } });
             }).catch(totalPromisesError => {
                 res.status(500).send(totalPromisesError);
             });

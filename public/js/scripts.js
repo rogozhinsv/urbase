@@ -1,6 +1,4 @@
 (function() {
-    var _wcfApiHost = "http://89.223.88.59/api";
-
     $(document).ready(function() {
         init();
     });
@@ -8,11 +6,11 @@
     function init() {
         $('#tbxOkvedMainSearch').typeahead({
             ajax: {
-                url: _wcfApiHost + "/okved",
+                url: getWcfApiHost() + "/okved",
                 timeout: 500,
                 displayField: "title",
-                triggerLength: 1,
-                method: "get",                
+                triggerLength: 3,
+                method: "get",
                 preDispatch: function(c) {
                     return "limit=15&title=" + c;
                 },
@@ -26,15 +24,16 @@
             }
         });
 
+        $('#tbxOkvedMainSearch').on("keyup", onTbxOkvedSearch_KeyUp);
         $("#btnOkvedMainSearch").click(onBtnOkvedMainSearch_Clicked);
 
         $('#tbxOkvedExtraSearch').typeahead({
             ajax: {
-                url: _wcfApiHost + "/okved",
+                url: getWcfApiHost() + "/okved",
                 timeout: 500,
                 displayField: "title",
-                triggerLength: 1,
-                method: "get",                
+                triggerLength: 3,
+                method: "get",
                 preDispatch: function(c) {
                     return "limit=15&title=" + c;
                 },
@@ -48,7 +47,20 @@
             }
         });
 
+        $('#tbxOkvedExtraSearch').on("keyup", onTbxOkvedExtraSearch_KeyUp);
         $("#btnOkvedExtraSearch").click(onBtnOkvedExtraSearch_Clicked);
+    }
+
+    function onTbxOkvedSearch_KeyUp(event) {
+        if (event.keyCode == 13) {
+            window.location.href = "/data?query=" + $('#tbxOkvedMainSearch').val();
+        }
+    }
+
+    function onTbxOkvedExtraSearch_KeyUp(event) {
+        if (event.keyCode == 13) {
+            window.location.href = "/data?query=" + $('#tbxOkvedExtraSearch').val();
+        }
     }
 
     function onBtnOkvedMainSearch_Clicked(event) {

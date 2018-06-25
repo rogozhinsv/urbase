@@ -2907,7 +2907,8 @@ aside .domain-sidebar .extensions ul {
     margin-top: 20px;
     overflow-y: scroll;
     height: 250px;
-    background: #f6f6f6
+    background: #f6f6f6;
+    position: relative;
 }
 
 aside .domain-sidebar .extensions ul li {
