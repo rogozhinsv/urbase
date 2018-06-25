@@ -56,6 +56,6 @@
     }
 
     function onBtnOkvedExtraSearch_Clicked(event) {
-
+        window.location.href = "/data?query=" + $('#tbxOkvedExtraSearch').val();
     }
 })();

@@ -58,3 +58,7 @@ block content
                                 li
                                     input(type="checkbox", name=region.title, value=region.id, id="region" + index)  
                                     label(for="region" + index)=region.title
+
+script(src="js/data.js")
+script.
+    DataPage.init("#{pageData.nextCompaniesUrl}");

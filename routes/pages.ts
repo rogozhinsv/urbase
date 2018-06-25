@@ -1,5 +1,6 @@
 import * as Express from 'express';
 import * as Request from "request-promise";
+import * as _ from "underscore";
 import { reject } from 'bluebird';
 var Config = require("./../config.json");
 import { IRestApiRequest, IOkved } from "./../models/rest-api";
@@ -27,11 +28,11 @@ class PagesRouter {
     }
 
     private routeDataPage(req: Express.Request, res: Express.Response, next: Express.NextFunction): void {
-        var okveds: any[] = [];
+        var okveds: IOkved[] = [];
 
         var getOkvedPromise: Promise<void> = new Promise((resolve, reject) => {
             if (req.query["okved"]) {
-                Request.get(Config.wcfHost + "/okved/" + req.query["okved"]).then((okvedRequestResult: IOkved) => {
+                Request.get(Config.wcfHost + "/okved/" + req.query["okved"], { json : true }).then((okvedRequestResult: IOkved) => {
                     okveds.push(okvedRequestResult);
                     resolve();
                 }).catch(err => {
@@ -39,7 +40,8 @@ class PagesRouter {
                 });
             }
             else if (req.query["query"]) {
-                Request.get(Config.wcfHost + "/okved?title=" + req.query["query"]).then((okvedRequestResult: IRestApiRequest) => {
+                debugger;
+                Request.get(Config.wcfHost + "/okved?title=" + encodeURIComponent(req.query["query"]), { json : true }).then((okvedRequestResult: IRestApiRequest) => {
                     okveds = okvedRequestResult.results;
                     resolve();
                 }).catch(err => {
@@ -47,7 +49,7 @@ class PagesRouter {
                 });
             }
             else {
-                Request.get(Config.wcfHost + "/okved?limit=3000").then((okvedRequestResult: IRestApiRequest) => {
+                Request.get(Config.wcfHost + "/okved?limit=3000", { json : true }).then((okvedRequestResult: IRestApiRequest) => {
                     okveds = okvedRequestResult.results;
                     resolve();
                 }).catch(err => {
@@ -58,6 +60,7 @@ class PagesRouter {
 
         getOkvedPromise.then(() => {
             var regions: any[] = [], companies: any[] = [];
+            var nextCompaniesUrl = "";
 
             var getRegionsPromise: Promise<void> = new Promise((resolve, reject) => {
                 Request.get(Config.wcfHost + "/regions?limit=104", { json: true }).then((regionsRequestResult: IRestApiRequest) => {
@@ -70,11 +73,12 @@ class PagesRouter {
 
             var getCompaniesPromise: Promise<void> = new Promise((resolve, reject) => {
                 var wcfUrl = Config.wcfHost + "/companies?limit=20&offset=0";
-                if (req.query["okved"]) {
-                    wcfUrl += "&okved__in=" + req.query["okved"];
+                if (okveds.length > 0) {
+                    wcfUrl += "&okved__in=" + _.map(okveds, x => x.id).join(",");
                 }
                 Request.get(wcfUrl, { json: true }).then((companiesRequestResult: IRestApiRequest) => {
                     companies = companiesRequestResult.results;
+                    nextCompaniesUrl = companiesRequestResult.next;
                     resolve();
                 }).catch(err => {
                     reject(err.stack);
@@ -82,12 +86,7 @@ class PagesRouter {
             });
 
             Promise.all([getOkvedPromise, getRegionsPromise, getCompaniesPromise]).then(() => {
-                if (req.query["okved"]) {
-                    res.render('data', { pageData: { regions: regions, companies: companies } });
-                }
-                else {
-                    res.render('data', { pageData: { regions: regions, companies: companies } });
-                }
+                res.render('data', { pageData: { regions: regions, companies: companies, okveds : okveds, nextCompaniesUrl: nextCompaniesUrl } });
             }).catch(totalPromisesError => {
                 res.status(500).send(totalPromisesError);
             });
