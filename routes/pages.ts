@@ -77,7 +77,7 @@ class PagesRouter {
                 }
                 Request.get(wcfUrl, { json: true }).then((companiesRequestResult: IRestApiRequest) => {
                     companies = companiesRequestResult.results;
-                    nextCompaniesUrl = decodeURIComponent(companiesRequestResult.next);
+                    nextCompaniesUrl = companiesRequestResult.next ? decodeURIComponent(companiesRequestResult.next) : "";
                     resolve();
                 }).catch(err => {
                     reject(err.stack);

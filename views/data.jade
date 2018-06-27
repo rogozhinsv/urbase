@@ -45,7 +45,7 @@ block content
                 div.domain-sidebar.shadow-hover.mb40
                     div.extensions
                         h4 Деятельность
-                        ul
+                        ul#ulDataPageOkved
                             each okved, index in pageData.okveds
                                 li
                                     input(type="checkbox", name=okved.title, value=okved.id, id="okved" + index)  
@@ -53,7 +53,7 @@ block content
                 div.domain-sidebar.shadow-hover.mb40
                     div.extensions
                         h4 Регионы
-                        ul
+                        ul#ulDataPageRegions
                             each region, index in pageData.regions
                                 li
                                     input(type="checkbox", name=region.title, value=region.id, id="region" + index)  
