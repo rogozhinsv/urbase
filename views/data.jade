@@ -18,7 +18,11 @@ block content
     </section>
     section.domain-page.checkout.pt20
         div.container
-            div.col-md-8.domain-results
+            div.col-md-12
+                div.table-responsive-results
+                    span Найдено юридических лиц:&nbsp;
+                    span.table-responsive-results-count=pageData.count
+            div.col-md-8.domain-results                
                 div.table-responsive
                     table.table.cart
                         thead
@@ -60,4 +64,4 @@ block content
                                     label(for="region" + index)=region.title
     script(src="js/data.js")
     script.
-        DataPage.init("#{pageData.nextCompaniesUrl}");
+        DataPage.init("#{pageData.nextCompaniesUrl}", "#{pageData.prevCompaniesUrl}");

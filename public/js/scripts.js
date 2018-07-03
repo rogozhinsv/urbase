@@ -9,7 +9,7 @@
                 url: getWcfApiHost() + "/okved",
                 timeout: 500,
                 displayField: "title",
-                triggerLength: 3,
+                triggerLength: 1,
                 method: "get",
                 preDispatch: function(c) {
                     return "limit=15&title=" + c;
@@ -32,7 +32,7 @@
                 url: getWcfApiHost() + "/okved",
                 timeout: 500,
                 displayField: "title",
-                triggerLength: 3,
+                triggerLength: 1,
                 method: "get",
                 preDispatch: function(c) {
                     return "limit=15&title=" + c;

@@ -1,11 +1,12 @@
-var DataPage = (function() {
-    var _nextCompaniesUrl = "";
+var DataPage = (function () {
+    var _nextCompaniesUrl = "", _prevCompaniesUrl = "";
     var _haveBeenSendRequestToApi = false;
 
-    function init(nextCompaniesUrl) {
+    function init(nextCompaniesUrl, prevCompaniesUrl) {
         _nextCompaniesUrl = nextCompaniesUrl.replace(/&amp;/g, "&");
+        _prevCompaniesUrl = prevCompaniesUrl.replace(/&amp;/g, "&");
 
-        $(document).ready(function() {
+        $(document).ready(function () {
             $("table.table.cart").bind("infinite-scroll", loadNextPortionData);
             var infiniteScroll = new $.InfiniteScroll("table.table.cart", true).setup();
 
@@ -15,19 +16,53 @@ var DataPage = (function() {
     }
 
     function regionChanged(event) {
-        var selectedRegions = getSelectedRegions();
+        updateData();
     }
 
     function okvedChanged(event) {
+        updateData();
+    }
+
+    function updateData() {
+        var url = getWcfApiHost() + "/companies?limit=20&offset=0";
+
+        var selectedRegions = getSelectedRegions();
         var selectedOkveds = getSelectedOkveds();
+
+        if (selectedOkveds.length == 0 && selectedRegions.length == 0) {
+            url = _prevCompaniesUrl;
+        }
+        else {
+            if (selectedRegions.length > 0) {
+                url += "&region__in=" + selectedRegions.join(",");
+            }
+            if (selectedOkveds.length > 0) {
+                url += "&okved__in=" + selectedOkveds.join(",");
+            }
+        }
+
+        $.ajax({
+            method: "GET",
+            url: url,
+            async: true,
+            type: "application/json",
+            success: updateData_Success
+        });
+    }
+
+    function updateData_Success(data) {
+        $("table.table.cart tr.cart-item").remove();
+        $(".table-responsive-results-count").text(data.count);
+
+        appendCompanies(data);
     }
 
     function getSelectedRegions() {
-        return $("#ulDataPageRegions input[type='checkbox']:checked").map(function() { return $(this).val() });
+        return $("#ulDataPageRegions input[type='checkbox']:checked").map(function () { return $(this).val() }).toArray();
     }
 
     function getSelectedOkveds() {
-        return $("#ulDataPageRegions input[type='checkbox']:checked").map(function() { return $(this).val() });
+        return $("#ulDataPageOkved input[type='checkbox']:checked").map(function () { return $(this).val() }).toArray();
     }
 
     function loadNextPortionData() {
@@ -45,7 +80,7 @@ var DataPage = (function() {
     }
 
     function appendCompanies(data) {
-        _nextCompaniesUrl = decodeURIComponent(data.next);
+        _nextCompaniesUrl = data.next ? decodeURIComponent(data.next) : null;
 
         var html = "";
         for (var i = 0; i < data.results.length; i++) {

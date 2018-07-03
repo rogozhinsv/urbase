@@ -15,16 +15,27 @@ class PagesRouter {
         this._router.get("/", this.routeIndexPage);
         this._router.get("/about-us", this.routeAboutUsPage);
         this._router.get("/data", this.routeDataPage);
+        this._router.get("/company/:id", this.routeCompanyPage);
     }
 
     private routeIndexPage(req: Express.Request, res: Express.Response, next: Express.NextFunction): void {
-        res.render("index", {
-            title: "Express"
-        });
+        res.render("index");
     }
 
     private routeAboutUsPage(req: Express.Request, res: Express.Response, next: Express.NextFunction): void {
-        res.render('about-us', { title: 'Express' });
+        res.render('about-us');
+    }
+
+    private routeCompanyPage(req: Express.Request, res: Express.Response, next: Express.NextFunction): void {
+        Request.get(Config.wcfHost + "/companies/" + req.params.id , { json: true }).then((company: any) => {
+            res.render("company", {
+                pageData: {
+                    company: company
+                }
+            });
+        }).catch(err => {
+            res.status(500).send(err.stack);
+        });
     }
 
     private routeDataPage(req: Express.Request, res: Express.Response, next: Express.NextFunction): void {
@@ -59,7 +70,8 @@ class PagesRouter {
 
         getOkvedPromise.then(() => {
             var regions: any[] = [], companies: any[] = [];
-            var nextCompaniesUrl = "";
+            var nextCompaniesUrl = "", prevCompaniesUrl = "";
+            var resultsCount = 0;
 
             var getRegionsPromise: Promise<void> = new Promise((resolve, reject) => {
                 Request.get(Config.wcfHost + "/regions?limit=104", { json: true }).then((regionsRequestResult: IRestApiRequest) => {
@@ -78,6 +90,8 @@ class PagesRouter {
                 Request.get(wcfUrl, { json: true }).then((companiesRequestResult: IRestApiRequest) => {
                     companies = companiesRequestResult.results;
                     nextCompaniesUrl = companiesRequestResult.next ? decodeURIComponent(companiesRequestResult.next) : "";
+                    prevCompaniesUrl = wcfUrl;
+                    resultsCount = companiesRequestResult.count;
                     resolve();
                 }).catch(err => {
                     reject(err.stack);
@@ -85,7 +99,16 @@ class PagesRouter {
             });
 
             Promise.all([getOkvedPromise, getRegionsPromise, getCompaniesPromise]).then(() => {
-                res.render('data', { pageData: { regions: regions, companies: companies, okveds: okveds, nextCompaniesUrl: nextCompaniesUrl } });
+                res.render('data', {
+                    pageData: {
+                        regions: regions,
+                        companies: companies,
+                        okveds: okveds,
+                        nextCompaniesUrl: nextCompaniesUrl,
+                        prevCompaniesUrl: prevCompaniesUrl,
+                        count: resultsCount
+                    }
+                });
             }).catch(totalPromisesError => {
                 res.status(500).send(totalPromisesError);
             });
