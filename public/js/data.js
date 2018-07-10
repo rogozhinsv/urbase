@@ -1,17 +1,19 @@
-var DataPage = (function () {
-    var _nextCompaniesUrl = "", _prevCompaniesUrl = "";
+var DataPage = (function() {
+    var _nextCompaniesUrl = "",
+        _prevCompaniesUrl = "";
     var _haveBeenSendRequestToApi = false;
 
     function init(nextCompaniesUrl, prevCompaniesUrl) {
         _nextCompaniesUrl = nextCompaniesUrl.replace(/&amp;/g, "&");
         _prevCompaniesUrl = prevCompaniesUrl.replace(/&amp;/g, "&");
 
-        $(document).ready(function () {
+        $(document).ready(function() {
             $("table.table.cart").bind("infinite-scroll", loadNextPortionData);
             var infiniteScroll = new $.InfiniteScroll("table.table.cart", true).setup();
 
             $("#ulDataPageOkved input[type='checkbox']").change(okvedChanged);
             $("#ulDataPageRegions input[type='checkbox']").change(regionChanged);
+            $("#ulDataPageFilterContacts input[type='checkbox']").change(contactsFilterChanged);
         });
     }
 
@@ -23,22 +25,35 @@ var DataPage = (function () {
         updateData();
     }
 
+    function contactsFilterChanged(event) {
+        updateData();
+    }
+
     function updateData() {
         var url = getWcfApiHost() + "/companies?limit=20&offset=0";
 
         var selectedRegions = getSelectedRegions();
         var selectedOkveds = getSelectedOkveds();
+        var allOkveds = getAllOkveds();
 
         if (selectedOkveds.length == 0 && selectedRegions.length == 0) {
             url = _prevCompaniesUrl;
-        }
-        else {
+        } else {
             if (selectedRegions.length > 0) {
                 url += "&region__in=" + selectedRegions.join(",");
             }
             if (selectedOkveds.length > 0) {
                 url += "&okved__in=" + selectedOkveds.join(",");
+            } else if (getParameterByName("query") && allOkveds.length > 0) {
+                url += "&okved__in=" + allOkveds.join(",");
             }
+        }
+
+        if (showWithPhone()) {
+            url += "&with_phone=1";
+        }
+        if (showWithEmail()) {
+            url += "&with_email=1";
         }
 
         $.ajax({
@@ -50,6 +65,14 @@ var DataPage = (function () {
         });
     }
 
+    function showWithPhone() {
+        return $("#ulDataPageFilterContacts input[type='checkbox'][id='cbxCompanyWithPhone']:checked").length > 0;
+    }
+
+    function showWithEmail() {
+        return $("#ulDataPageFilterContacts input[type='checkbox'][id='cbxCompanyWithEmail']:checked").length > 0;
+    }
+
     function updateData_Success(data) {
         $("table.table.cart tr.cart-item").remove();
         $(".table-responsive-results-count").text(data.count);
@@ -58,11 +81,15 @@ var DataPage = (function () {
     }
 
     function getSelectedRegions() {
-        return $("#ulDataPageRegions input[type='checkbox']:checked").map(function () { return $(this).val() }).toArray();
+        return $("#ulDataPageRegions input[type='checkbox']:checked").map(function() { return $(this).val() }).toArray();
     }
 
     function getSelectedOkveds() {
-        return $("#ulDataPageOkved input[type='checkbox']:checked").map(function () { return $(this).val() }).toArray();
+        return $("#ulDataPageOkved input[type='checkbox']:checked").map(function() { return $(this).val() }).toArray();
+    }
+
+    function getAllOkveds() {
+        return $("#ulDataPageOkved input[type='checkbox']").map(function() { return $(this).val() }).toArray();
     }
 
     function loadNextPortionData() {
@@ -85,7 +112,7 @@ var DataPage = (function () {
         var html = "";
         for (var i = 0; i < data.results.length; i++) {
             var item = data.results[i];
-            var linkToCompany = "<a href='/company/" + item.id + "'>" + item.name + "</a>";
+            var linkToCompany = "<a target='_blank' href='/company/" + item.id + "'>" + item.name + "</a>";
 
             html += "<tr class='cart-item'><td>" + linkToCompany + "</td><td>" + item.area + "</td><td>" + item.region +
                 "</td><td>" + item.head + "</td><td>" + item.phone + "</td></tr>";

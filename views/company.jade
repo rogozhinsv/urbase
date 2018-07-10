@@ -1,2 +1,81 @@
 extend layout
 
+block content
+    section.page-header
+        div.container
+            div.row
+                div.col-md-12.col-sm-12.col-xs-12
+                    h4 Информация о компании
+    section.ptb30
+        div.container
+            div.col-md-12.cart-total
+                div.table-responsive
+                    h4.pb30=pageData.company.name
+                table.table
+                    tbody
+                        tr
+                            td.cart-product-name
+                                strong Деятельность
+                            td.cart-product-name
+                                span=pageData.company.area
+                        tr
+                            td.cart-product-name
+                                strong Регион
+                            td.cart-product-name
+                                span=pageData.company.region                        
+                        tr
+                            td.cart-product-name
+                                strong Руководитель
+                            td.cart-product-name
+                                span=pageData.company.head
+                        tr
+                            td.cart-product-name
+                                strong Телефон
+                            td.cart-product-name
+                                span=pageData.company.phone
+                        tr
+                            td.cart-product-name
+                                strong Email
+                            td.cart-product-name
+                                span=pageData.company.email
+                        tr
+                            td.cart-product-name
+                                strong Дата регистрации
+                            td.cart-product-name
+                                span=pageData.company.registrationdate
+                        tr
+                            td.cart-product-name
+                                strong Юридический адрес
+                            td.cart-product-name
+                                span=pageData.company.yraddress
+                        tr
+                            td.cart-product-name
+                                strong Фактический адрес
+                            td.cart-product-name
+                                span=pageData.company.factaddress
+                        tr
+                            td.cart-product-name
+                                strong ИНН
+                            td.cart-product-name
+                                span=pageData.company.inn
+                        tr
+                            td.cart-product-name
+                                strong КПП
+                            td.cart-product-name
+                                span=pageData.company.kpp
+                        tr
+                            td.cart-product-name
+                                strong ОГРН
+                            td.cart-product-name
+                                span=pageData.company.ogrn
+                        tr
+                            td.cart-product-name
+                                strong ОКПО
+                            td.cart-product-name
+                                span=pageData.company.okpo
+                        tr
+                            td.cart-product-name
+                                strong ОКАТО
+                            td.cart-product-name
+                                span=pageData.company.okato
+

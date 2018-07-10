@@ -16,7 +16,7 @@ html(lang='ru')
     link(rel='stylesheet', type="text/css", href='/stylesheets/style.css')
     link(rel="stylesheet", type="text/css", href="/stylesheets/responsive.css")
 
-    script(src="js/jquery-3.1.1.min.js")
+    script(src="/js/jquery-3.1.1.min.js")
     != "<!-- [if lt IE 9]	  script(src=\"https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js\")  script(src=\"https://oss.maxcdn.com/respond/1.4.2/respond.min.js\") <!-- <![endif]-->"
   body.cbp-spmenu-push
     div.loader
@@ -29,7 +29,7 @@ html(lang='ru')
                 div.row
                     div.col-md-2.col-sm-6.col-xs-8
                         a(class="navbar-brand nomargin", href="/")
-                            img(src="images/logo.png", alt="logo")
+                            img(src="/images/logo.png", alt="logo")
                     // ======== Start of Main Menu ========
                     div.col-md-10.col-sm-6.col-xs-4
                         div.navbar-header.page-scroll
@@ -41,13 +41,21 @@ html(lang='ru')
                         //Start of Main Nav
                         div(class="collapse navbar-collapse cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right", id="main-nav")
                             ul.nav.navbar-nav.pull-right
+                                li.mobile-title
+                                    h4 Меню
                                 // Simple Menu Item
                                 li.dropdown.simple-menu
                                     a(href="/", role="button") главная
                                 li.dropdown.simple-menu
                                     a(href="/data", role="button") поиск
                                 li.dropdown.simple-menu 
-                                    a(href="/about-us", role="button") информация
+                                    a.dropdown-toggle(href="#", role="button", data-toggle="dropdown") информация
+                                        i.fa.fa-angle-down
+                                    ul.dropdown-menu(role='menu')
+                                        li.dropdown-submenu
+                                            a(href="/about-us") О нас
+                                        li.dropdown-submenu
+                                            a(href="/codes-okved") Коды ОКВЭД
                                 li.dropdown.simple-menu 
                                     a(href="/contact", role="button") контакты
     block content    
@@ -61,18 +69,18 @@ html(lang='ru')
     a(href="#", class="back-top")
       i.fa.fa-chevron-up
     
-    script(src="js/bootstrap.min.js")
-    script(src="js/infiniteScroll.js")
-    script(src="js/bootstrap-typeahead.min.js")
-    script(src="js/jquery.ajaxchimp.js")
-    script(src="js/jquery.countTo.js")
-    script(src="js/jquery.inview.min.js")
-    script(src="js/jquery.magnific-popup.min.js")
-    script(src="js/jquery.easing.min.js")
-    script(src="js/jquery.nav.js")
-    script(src="js/owl.carousel.min.js")
-    script(src="js/isotope.min.js")
-    script(src="js/countdown.js")
-    script(src="js/common.js")
-    script(src="js/custom.js")
-    script(src="js/scripts.js")
+    script(src="/js/bootstrap.min.js")
+    script(src="/js/infiniteScroll.js")
+    script(src="/js/bootstrap-typeahead.min.js")
+    script(src="/js/jquery.ajaxchimp.js")
+    script(src="/js/jquery.countTo.js")
+    script(src="/js/jquery.inview.min.js")
+    script(src="/js/jquery.magnific-popup.min.js")
+    script(src="/js/jquery.easing.min.js")
+    script(src="/js/jquery.nav.js")
+    script(src="/js/owl.carousel.min.js")
+    script(src="/js/isotope.min.js")
+    script(src="/js/countdown.js")
+    script(src="/js/common.js")
+    script(src="/js/custom.js")
+    script(src="/js/scripts.js")

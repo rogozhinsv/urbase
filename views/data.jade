@@ -13,16 +13,13 @@ block content
                         input#tbxOkvedExtraSearch.form-control(type="text", placeholder="Введите область деятельности...")
                         span.input-group-btn              
                             button#btnOkvedExtraSearch.btn.btn-my.btn-green.btn-effect.btn-responsive.btn-my-lg Найти  
-            </div>
-        </div>
-    </section>
     section.domain-page.checkout.pt20
         div.container
             div.col-md-12
                 div.table-responsive-results
                     span Найдено юридических лиц:&nbsp;
                     span.table-responsive-results-count=pageData.count
-            div.col-md-8.domain-results                
+            div.col-md-8.domain-results.mb30                
                 div.table-responsive
                     table.table.cart
                         thead
@@ -32,11 +29,12 @@ block content
                                 th Регион
                                 th Руководитель
                                 th Телефон
+                                th Email
                         tbody
                             each company in pageData.companies
                                 tr.cart-item
                                     td
-                                        a(href="/company/" + company.id)=company.name
+                                        a(href="/company/" + company.id, target="_blank")=company.name
                                     td
                                         span=company.area
                                     td
@@ -45,8 +43,10 @@ block content
                                         span=company.head
                                     td
                                         span=company.phone
+                                    td
+                                        span=company.email
             aside.col-md-4
-                div.domain-sidebar.shadow-hover.mb40
+                div.domain-sidebar.shadow-hover.mb20
                     div.extensions
                         h4 Деятельность
                         ul#ulDataPageOkved
@@ -54,7 +54,7 @@ block content
                                 li
                                     input(type="checkbox", name=okved.title, value=okved.id, id="okved" + index)  
                                     label(for="okved" + index)=okved.title
-                div.domain-sidebar.shadow-hover.mb40
+                div.domain-sidebar.shadow-hover.mb20
                     div.extensions
                         h4 Регионы
                         ul#ulDataPageRegions
@@ -62,6 +62,16 @@ block content
                                 li
                                     input(type="checkbox", name=region.title, value=region.id, id="region" + index)  
                                     label(for="region" + index)=region.title
+                div.domain-sidebar.shadow-hover.mb20
+                    div.extensions.extensions-min
+                        h4 Контакты
+                        ul#ulDataPageFilterContacts
+                            li
+                                input(type="checkbox", name="cbxCompanyWithPhone", id="cbxCompanyWithPhone")  
+                                label(for="cbxCompanyWithPhone") Указан телефон
+                            li
+                                input(type="checkbox", name="cbxCompanyWithEmail", id="cbxCompanyWithEmail")  
+                                label(for="cbxCompanyWithEmail") Указан email
     script(src="js/data.js")
     script.
         DataPage.init("#{pageData.nextCompaniesUrl}", "#{pageData.prevCompaniesUrl}");

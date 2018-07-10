@@ -15,11 +15,16 @@ class PagesRouter {
         this._router.get("/", this.routeIndexPage);
         this._router.get("/about-us", this.routeAboutUsPage);
         this._router.get("/data", this.routeDataPage);
-        this._router.get("/company/:id", this.routeCompanyPage);
+        this._router.get("/company/:companyId", this.routeCompanyPage);
+        this._router.get("/codes-okved", this.routeOkvedCodes);
     }
 
     private routeIndexPage(req: Express.Request, res: Express.Response, next: Express.NextFunction): void {
         res.render("index");
+    } 
+
+    private routeOkvedCodes(req: Express.Request, res: Express.Response, next: Express.NextFunction): void {
+        res.render("okved-codes");
     }
 
     private routeAboutUsPage(req: Express.Request, res: Express.Response, next: Express.NextFunction): void {
@@ -27,7 +32,7 @@ class PagesRouter {
     }
 
     private routeCompanyPage(req: Express.Request, res: Express.Response, next: Express.NextFunction): void {
-        Request.get(Config.wcfHost + "/companies/" + req.params.id , { json: true }).then((company: any) => {
+        Request.get(Config.wcfHost + "/companies/" + req.params.companyId , { json: true }).then((company: any) => {
             res.render("company", {
                 pageData: {
                     company: company

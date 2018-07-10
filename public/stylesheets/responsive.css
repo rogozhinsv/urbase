@@ -24,7 +24,8 @@
     .navbar-default .navbar-toggle .icon-bar {
         background: #4191cf
     }
-    .navbar-toggle:focus, .navbar-toggle:hover {
+    .navbar-toggle:focus,
+    .navbar-toggle:hover {
         background: none!important
     }
     .navbar-collapse {
@@ -48,16 +49,21 @@
     div#main-nav ul li {
         width: 100%
     }
+    #main-nav .navbar-nav .dropdown.open .dropdown-menu {
+        margin-top: 0;
+    }
     div#main-nav ul li a {
         padding: 10px 30px;
         z-index: 100;
         display: block;
-        border-bottom: 1px solid #e3e3e3
+        border-bottom: 1px solid #e3e3e3;
+        line-height: inherit;
     }
     div#main-nav ul li:last-child a {
         border-bottom: 0
     }
-    div#main-nav ul li.open>a, div#main-nav ul li>a:hover {
+    div#main-nav ul li.open>a,
+    div#main-nav ul li>a:hover {
         color: #6a7e8e!important
     }
     div#main-nav ul li a i {
@@ -85,7 +91,8 @@
         float: none!important;
         margin: 0 auto
     }
-    .header3 .top-bar, .header3 .top-bar .social-btns {
+    .header3 .top-bar,
+    .header3 .top-bar .social-btns {
         text-align: center
     }
     #main-nav .navbar-nav .dropdown .dropdown-menu {
@@ -129,7 +136,8 @@
     #main-nav .navbar-nav .mega-menu .dropdown-menu li {
         padding: 0
     }
-    #main-nav .navbar-nav .mega-menu.open .dropdown-menu .mega-menu-inner, #main-nav .navbar-nav .mega-menu.open .dropdown-menu .mega-menu-inner ul li {
+    #main-nav .navbar-nav .mega-menu.open .dropdown-menu .mega-menu-inner,
+    #main-nav .navbar-nav .mega-menu.open .dropdown-menu .mega-menu-inner ul li {
         padding: 0
     }
     #main-nav .navbar-nav .mega-menu.open .dropdown-menu .mega-menu-inner ul li.menu-title {
@@ -244,7 +252,8 @@
     .cbp-spmenu-push-toleft {
         left: -260px
     }
-    .cbp-spmenu, .cbp-spmenu-push {
+    .cbp-spmenu,
+    .cbp-spmenu-push {
         -webkit-transition: all .3s ease;
         -moz-transition: all .3s ease;
         -ms-transition: all .3s ease;
@@ -273,7 +282,8 @@
     footer .footer-info .col-sm-6.col-xs-6 {
         margin-bottom: 60px
     }
-    footer .footer-info .col-sm-6.col-xs-6:nth-child(3), footer .footer-info .col-sm-6.col-xs-6:nth-child(4) {
+    footer .footer-info .col-sm-6.col-xs-6:nth-child(3),
+    footer .footer-info .col-sm-6.col-xs-6:nth-child(4) {
         margin-bottom: 0
     }
     footer .footer-info .footer-posts {
@@ -368,7 +378,8 @@
         background: -webkit-linear-gradient(to right, #4191cf -20%, #79cadc 120%);
         background: linear-gradient(to right, #4191cf -20%, #79cadc 120%)
     }
-    .coming-main .mailchimp .form-group input, .coming-main .mailchimp .form-group button {
+    .coming-main .mailchimp .form-group input,
+    .coming-main .mailchimp .form-group button {
         display: inline-block
     }
 }
@@ -412,7 +423,8 @@
     .coming-main h3 {
         padding-top: 20px
     }
-    .coming-main .mailchimp .form-group input, .coming-main .mailchimp .form-group button {
+    .coming-main .mailchimp .form-group input,
+    .coming-main .mailchimp .form-group button {
         width: 100%
     }
     .coming-main .mailchimp .form-group button {
