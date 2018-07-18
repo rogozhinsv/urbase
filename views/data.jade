@@ -10,7 +10,7 @@ block content
         div.container
             div.col-md-12
                 div.input-group.input-group-lg
-                        input#tbxOkvedExtraSearch.form-control(type="text", placeholder="Введите область деятельности...")
+                        input#tbxOkvedExtraSearch.form-control(type="text", placeholder="Введите область деятельности...", value=pageData.query)
                         span.input-group-btn              
                             button#btnOkvedExtraSearch.btn.btn-my.btn-green.btn-effect.btn-responsive.btn-my-lg Найти  
     section.domain-page.checkout.pt20
@@ -19,33 +19,7 @@ block content
                 div.table-responsive-results
                     span Найдено юридических лиц:&nbsp;
                     span.table-responsive-results-count=pageData.count
-            div.col-md-8.domain-results.mb30                
-                div.table-responsive
-                    table.table.cart
-                        thead
-                            tr
-                                th Наименование   
-                                th Отрасль                   
-                                th Регион
-                                th Руководитель
-                                th Телефон
-                                th Email
-                        tbody
-                            each company in pageData.companies
-                                tr.cart-item
-                                    td
-                                        a(href="/company/" + company.id, target="_blank")=company.name
-                                    td
-                                        span=company.area
-                                    td
-                                        span=company.region
-                                    td
-                                        span=company.head
-                                    td
-                                        span=company.phone
-                                    td
-                                        span=company.email
-            aside.col-md-4
+            aside.col-md-4.col-md-push-8
                 div.domain-sidebar.shadow-hover.mb20
                     div.extensions
                         h4 Деятельность
@@ -72,6 +46,32 @@ block content
                             li
                                 input(type="checkbox", name="cbxCompanyWithEmail", id="cbxCompanyWithEmail")  
                                 label(for="cbxCompanyWithEmail") Указан email
-    script(src="js/data.js")
+            div.col-md-8.domain-results.mb30.col-md-pull-4                
+                div.table-responsive
+                    table.table.cart
+                        thead
+                            tr
+                                th Наименование   
+                                th Отрасль                   
+                                th Регион
+                                th Руководитель
+                                th Телефон
+                                th Email
+                        tbody
+                            each company in pageData.companies
+                                tr.cart-item
+                                    td
+                                        a(href="/company/" + company.id, target="_blank")=company.name
+                                    td
+                                        span=company.area
+                                    td
+                                        span=company.region
+                                    td
+                                        span=company.head
+                                    td
+                                        span=company.phone
+                                    td
+                                        span=company.email            
+    script(src="/js/data.js")
     script.
         DataPage.init("#{pageData.nextCompaniesUrl}", "#{pageData.prevCompaniesUrl}");

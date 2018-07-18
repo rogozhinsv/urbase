@@ -50,10 +50,10 @@ var DataPage = (function() {
         }
 
         if (showWithPhone()) {
-            url += "&with_phone=1";
+            url += "&has_phone=1";
         }
         if (showWithEmail()) {
-            url += "&with_email=1";
+            url += "&has_email=1";
         }
 
         $.ajax({
@@ -115,7 +115,7 @@ var DataPage = (function() {
             var linkToCompany = "<a target='_blank' href='/company/" + item.id + "'>" + item.name + "</a>";
 
             html += "<tr class='cart-item'><td>" + linkToCompany + "</td><td>" + item.area + "</td><td>" + item.region +
-                "</td><td>" + item.head + "</td><td>" + item.phone + "</td></tr>";
+                "</td><td>" + item.head + "</td><td>" + item.phone + "</td><td>" + item.email + "</td></tr>";
         }
         $("table.table.cart tr:last").after(html);
 

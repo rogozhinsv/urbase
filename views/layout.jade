@@ -4,10 +4,9 @@ html(lang='ru')
     meta(http-equiv="Content-Type", content="text/html; charset=UTF-8")
     meta(http-equiv="X-UA-Compatible", content="IE=edge")
     meta(name="viewport", content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no")
-    meta(name="description", content="")
-    meta(name="keywords", content="")
+    meta(name="description", content="Регулярно обновляемая база данных юридических лиц РФ. Поиск контрагентов. Контактные данные руководителей. Полная информация о компаниях.")
     
-    title UrBase
+    title=title
     
     link(href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700|Roboto:300,400,500,700,900", rel="stylesheet")
     link(rel="stylesheet", type="text/css", href="/stylesheets/bootstrap.min.css")
@@ -84,3 +83,30 @@ html(lang='ru')
     script(src="/js/common.js")
     script(src="/js/custom.js")
     script(src="/js/scripts.js")
+
+    script(type="text/javascript").
+        (function (d, w, c) {
+            (w[c] = w[c] || []).push(function() {
+                try {
+                    w.yaCounter49639171 = new Ya.Metrika2({
+                        id:49639171,
+                        clickmap:true,
+                        trackLinks:true,
+                        accurateTrackBounce:true
+                    });
+                } catch(e) { }
+            });
+
+            var n = d.getElementsByTagName("script")[0],
+                s = d.createElement("script"),
+                f = function () { n.parentNode.insertBefore(s, n); };
+            s.type = "text/javascript";
+            s.async = true;
+            s.src = "https://mc.yandex.ru/metrika/tag.js";
+
+            if (w.opera == "[object Opera]") {
+                d.addEventListener("DOMContentLoaded", f, false);
+            } else { f(); }
+        })(document, window, "yandex_metrika_callbacks2");
+
+    <noscript><div><img src="https://mc.yandex.ru/watch/49639171" style="position:absolute; left:-9999px;" alt="" /></div></noscript>

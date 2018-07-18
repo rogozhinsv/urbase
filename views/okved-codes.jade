@@ -6,6 +6,29 @@ block content
             div.row
                 div.col-md-12.col-sm-12.col-xs-12
                     h4 Коды ОКВЭД
-    section.ptb30
+    section.domain.ptb30
         div.container
             div.col-md-12
+                div.input-group.input-group-lg
+                        input#tbxOkvedFullSearch.form-control(type="text", placeholder="Введите область деятельности...", value=pageData.query)
+                        span.input-group-btn              
+                            button#btnOkvedFullSearch.btn.btn-my.btn-green.btn-effect.btn-responsive.btn-my-lg Найти
+    section.domain-page.checkout.pt20
+        div.container
+            div.col-md-12.domain-results.mb30                
+                div.table-responsive
+                    table.table.cart
+                        thead
+                            tr
+                                th Код   
+                                th Наименование
+                        tbody
+                            each item in pageData.okveds
+                                tr.cart-item
+                                    td
+                                        span=item.code
+                                    td
+                                        span!=item.title            
+    script(src="/js/okved-list.js")
+    script.
+        OkvedListPage.init("#{pageData.nextItemsUrl}");

@@ -20,20 +20,42 @@ class PagesRouter {
     }
 
     private routeIndexPage(req: Express.Request, res: Express.Response, next: Express.NextFunction): void {
-        res.render("index");
-    } 
+        res.render("index", {
+            title: "UrBase Info Актуальная база юридических лиц РФ"
+        });
+    }
 
     private routeOkvedCodes(req: Express.Request, res: Express.Response, next: Express.NextFunction): void {
-        res.render("okved-codes");
+        var url = Config.wcfHost + "/okved";
+        var query = req.query["query"];
+        if (query) {
+            url = Config.wcfHost + "/okved?title=" + encodeURIComponent(req.query["query"]);
+        }
+
+        Request.get(url, { json: true }).then((okvedRequestResult: IRestApiRequest) => {
+            res.render("okved-codes", {
+                title: "Список кодов ОКВЭД",
+                pageData: {
+                    query: query || "",
+                    okveds: okvedRequestResult.results,
+                    nextItemsUrl: okvedRequestResult.next ? decodeURIComponent(okvedRequestResult.next) : ""
+                }
+            });
+        }).catch(err => {
+            res.status(500).send(err.stack);
+        });
     }
 
     private routeAboutUsPage(req: Express.Request, res: Express.Response, next: Express.NextFunction): void {
-        res.render('about-us');
+        res.render('about-us', {
+            title: "О нас"
+        });
     }
 
     private routeCompanyPage(req: Express.Request, res: Express.Response, next: Express.NextFunction): void {
-        Request.get(Config.wcfHost + "/companies/" + req.params.companyId , { json: true }).then((company: any) => {
+        Request.get(Config.wcfHost + "/companies/" + req.params.companyId, { json: true }).then((company: any) => {
             res.render("company", {
+                title: "Информация о компании",
                 pageData: {
                     company: company
                 }
@@ -105,7 +127,9 @@ class PagesRouter {
 
             Promise.all([getOkvedPromise, getRegionsPromise, getCompaniesPromise]).then(() => {
                 res.render('data', {
+                    title: "Поиск",
                     pageData: {
+                        query: req.query["query"] || "",
                         regions: regions,
                         companies: companies,
                         okveds: okveds,

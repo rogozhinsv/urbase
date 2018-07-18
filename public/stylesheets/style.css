@@ -3749,6 +3749,6 @@ form#comment-form textarea {
     margin-left: 8px;
 }
 
-section.about-us .highlighted {
+section .highlighted {
     font-weight: 600;
 }
