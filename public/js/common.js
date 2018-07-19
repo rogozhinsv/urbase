@@ -1,5 +1,5 @@
 function getWcfApiHost() {
-    return "http://api.urbase-info.ru/api";
+    return "https://api.urbase-info.ru/api";
 }
 
 function getParameterByName(name, url) {
