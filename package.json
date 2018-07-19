@@ -4,7 +4,7 @@
     "private": true,
     "scripts": {
         "start": "npm run build:live",
-        "build:live": "nodemon --inspect --exec ts-node app.ts"
+        "build:live": "nodemon --exec ts-node app.ts"
     },
     "dependencies": {
         "body-parser": "^1.18.3",
