@@ -37,7 +37,7 @@ export class UrbaseApp {
     this._app.use(NotFoundPageRouter.default);
     this._app.use((err: Error, req: any, res: any, next: any) => res.send(err.stack));
 
-    this._app.listen(8080, () => console.log("app listening on port 8080"));
+    this._app.listen(8080, "localhost", () => console.log("app listening on port 8080"));
   }
 }
 
